@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="SempaiTiled" package="com.sample.sempaitiled" version="1.0.0" company="Company Name" />
+	<app main="Main" path="Export" file="SempaiTiled" />
+	<window fps="60" />
+	
+	<source path="Source" />
+	
+	<haxelib name="openfl" />
+	
+	<assets path="Assets" rename="assets" />
+	
+</project>
