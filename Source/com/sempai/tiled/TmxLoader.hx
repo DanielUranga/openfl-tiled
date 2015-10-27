@@ -14,7 +14,7 @@ import openfl.geom.Matrix;
 
 class TmxLoader {
 
-	static function parseLayer(data : String, width : Int, height : Int) : TmxMatrix {
+	static function parseLayer(data : String, width : Int, height : Int) : TmxMatrix<Int> {
 		trace(data);
 		var un64 = Base64.decode(data);
 		var uncompressed = new BytesInput(Uncompress.run(un64));
@@ -76,21 +76,17 @@ class TmxLoader {
 			}
 		}
 
-		var tmx = new TmxSprite();
-		for (layer in layers) {
+		var tmx = new TmxSprite(width, height, tileWidth, tileHeight, tiles, scale);
+		var layerId = 0;
+		for (l in layers) {
+			tmx.addLayer();
 			for (yPos in 0...height) {
 				for (xPos in 0...width) {
-					var data = tiles[layer.get(xPos, yPos)-firstGid];
-					if (data!=null) {
-						var bmp = new Bitmap(data);
-						bmp.x = (xPos*tileWidth)*scale;
-						bmp.y = Math.floor((yPos+1)*tileHeight)*scale-bmp.height;
-						var spr = new Sprite();
-						spr.addChild(bmp);
-						tmx.addChild(spr);
-					}
+					var id = l.get(xPos, yPos)-firstGid;
+					tmx.set(layerId, xPos, yPos, id);
 				}
 			}
+			layerId++;
 		}
 		return tmx;
 
